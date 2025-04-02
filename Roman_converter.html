@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Roman Numeral Converter</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      body{
+        font-family: 'Georgia', serif;
+        background-color: #f5f5f5;
+        color: #333;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        line-height: 1.6;
+      }
+        
+      header {
+        text-align: center;
+        margin-bottom: 30px;
+        border-bottom: 2px solid #8b4513;
+        padding-bottom: 20px;
+      }
+        
+      h1 {
+        color: #8b4513;
+        font-size: 2.5em;
+        margin-bottom: 10px;
+      }
+        
+      .converter-container {
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        padding: 30px;
+        margin-bottom: 30px;
+      }
+        
+      .converter-form {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+              
+      .input-group {
+        display: flex;
+        flex-direction: column;
+      }
+              
+      label {
+        font-weight: bold;
+        margin-bottom: 8px;
+        color: #555;
+      }
+              
+      input, select {
+        padding: 12px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 16px;
+      }
+              
+      button {
+        background-color: #8b4513;
+        color: white;
+        border: none;
+        padding: 12px 20px;
+        font-size: 16px;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+              
+      button:hover {
+        background-color: #cd754c;
+      }
+
+      .output {
+        margin-top: 20px;
+        padding: 15px;
+        border: 1px dashed #8b4513;
+        border-radius: 4px;
+        text-align: center;
+        font-size: 18px;
+        min-height: 20px;
+        display: none;
+      }
+              
+      .info-section {
+        background-color: #f9f3e9;
+        padding: 20px;
+        border-radius: 8px;
+        border-left: 4px solid #8b4513;
+      }
+              
+      h2 {
+        color: #8b4513;
+        margin-top: 30px;
+      }
+              
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+      }
+
+      th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: center;
+      }        
+      th {
+        background-color: #8b4513;
+        color: white;
+      }
+              
+      tr:nth-child(even) {
+        background-color: #f2f2f2;
+      }
+
+      footer {
+        text-align: center;
+        margin-top: 40px;
+        padding-top: 20px;
+        border-top: 1px solid #ddd;
+        color: #777;
+      }
+
+      .result {
+        color: black;
+        font-weight: bold;
+      }
+      .error {
+        color: #d9534f;
+        border: 1px dashed #d9534f;
+      }
+
+    </style>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const conversionType = document.getElementById("conversion-type");
+        const numberInput = document.getElementById("number");
+        const convertBtn = document.getElementById("convert-btn");
+        const output = document.getElementById("output");
+        const form = document.querySelector(".converter-form");
+
+        const romanNumerals = [
+          { value: 1000, symbol: 'M' },
+          { value: 900, symbol: 'CM' },
+          { value: 500, symbol: 'D' },
+          { value: 400, symbol: 'CD' },
+          { value: 100, symbol: 'C' },
+          { value: 90, symbol: 'XC' },
+          { value: 50, symbol: 'L' },
+          { value: 40, symbol: 'XL' },
+          { value: 10, symbol: 'X' },
+          { value: 9, symbol: 'IX' },
+          { value: 5, symbol: 'V' },
+          { value: 4, symbol: 'IV' },
+          { value: 1, symbol: 'I' }
+        ];
+
+        // Change this to button click instead of form submit
+        convertBtn.addEventListener('click', function(e) {
+          e.preventDefault(); // Prevent form submission
+          convertValue();
+        });
+
+        const convertValue = () => {
+          const inputVal = numberInput.value.trim();
+          output.textContent = "";
+          output.className = "";
+          output.style.display = "block";
+
+          // Check if conversion type is selected
+          if (!conversionType.value) {
+            showError("Select a conversion type!");
+            return;
+          }
+
+          // Check if input is empty
+          if (!inputVal) {
+            showError("Enter a valid number");
+            return;
+          }
+
+          try {
+            if (conversionType.value === "to-roman") {
+              const number = parseInt(inputVal);
+              if (isNaN(number)) {
+                throw new Error("Please enter a valid number");
+              }
+              if (number < 1) {
+                throw new Error("Please enter a number greater than or equal to 1");
+              }
+              if (number > 3999) {
+                throw new Error("Please enter a number less than or equal to 3999");
+              }
+              output.innerHTML = `
+                <p class="result">
+                  Result: ${convertToRoman(number)}
+                </p>
+              `;
+              numberInput.value = "";
+            }
+            else if (conversionType.value === "to-number") {
+              if (isValidRoman(inputVal)) {
+                output.innerHTML = `
+                  <p class="result">
+                    Result: ${convertToNumber(inputVal.toUpperCase())}
+                  </p>
+                `;
+                numberInput.value = "";
+              }
+            }
+          } catch (error) {
+            showError(error.message);
+          }
+        };
+
+        const showError = (message) => {
+          output.innerHTML = `<p class="error">${message}</p>`;
+        };
+
+        const isValidRoman = (str) => {
+          const romanRegex = /^M{0,3}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})$/i;
+          if (!romanRegex.test(str)) {
+            throw new Error("Please enter a valid Roman numeral");
+          }
+          return true;
+        };
+
+        const convertToRoman = (num) => {
+          let result = "";
+          for (let i = 0; i < romanNumerals.length; i++) {
+            while (num >= romanNumerals[i].value) {
+              result += romanNumerals[i].symbol;
+              num -= romanNumerals[i].value;
+            }
+          }
+          return result;
+        };
+
+        const convertToNumber = (str) => {
+          const romanMap = {
+            I: 1,
+            V: 5,
+            X: 10,
+            L: 50,
+            C: 100,
+            D: 500,
+            M: 1000
+          };
+          
+          let result = 0;
+          let index = 0;
+          const romanStr = str.toUpperCase();
+          
+          while (index < romanStr.length) {
+            const current = romanMap[romanStr[index]];
+            const next = romanMap[romanStr[index + 1]];
+            
+            if (next && current < next) {
+              result += next - current;
+              index += 2;
+            } else {
+              result += current;
+              index++;
+            }
+          }
+          
+          return result;
+        };
+      });
+    </script>
+  </head>
+  <body>
+    <header>
+      <h1>Roman Numeral Converter</h1>
+      <p>Convert between Arabic numbers and Roman numerals</p>
+    </header>
+    
+    <main>
+      <div class="converter-container">
+        <form class="converter-form">
+          <div class="input-group">
+            <label for="conversion-type">Conversion Type</label>
+              <select id="conversion-type" name="conversion-type" required>
+                  <option value="">Select conversion type</option>
+                  <option value="to-roman">Number to Roman</option>
+                  <option value="to-number">Roman to Number</option>
+              </select>
+          </div>      
+                
+          <div class="input-group">
+            <label for="input-value">Input Value</label>
+            <input type="text" id="number" name="number" required placeholder="Enter number or Roman numeral">
+          </div>
+                
+            <button id="convert-btn">Convert</button>
+            <div class="output" id="output"></div>
+        </form>
+      </div>
+        
+      <div class="info-section">
+        <h2>About Roman Numerals</h2>
+        <p>Roman numerals are a numeral system that originated in ancient Rome and remained the usual way of writing numbers throughout Europe well into the Late Middle Ages.</p>
+            
+        <h3>Basic Roman Numerals</h3>
+        <table>
+          <tr>
+            <th>Roman Numeral</th>
+            <th>Number Value</th>
+          </tr>
+          <tr>
+            <td>I</td>
+            <td>1</td>
+          </tr>
+          <tr>
+            <td>V</td>
+            <td>5</td>
+          </tr>
+          <tr>
+            <td>X</td>
+            <td>10</td>
+          </tr>
+          <tr>
+            <td>L</td>
+            <td>50</td>
+          </tr>
+          <tr>
+            <td>C</td>
+            <td>100</td>
+          </tr>
+          <tr>
+            <td>D</td>
+            <td>500</td>
+          </tr>
+          <tr>
+            <td>M</td>
+            <td>1000</td>
+          </tr>
+        </table>
+            
+        <h3>Conversion Rules</h3>
+          <ul>
+            <li>When a smaller numeral appears before a larger one, it is subtracted</li>
+            <li>Only I, X, and C can be used as subtractive numerals</li>
+            <li>A numeral cannot be subtracted more than once from a particular numeral</li>
+            <li>Only subtract a numeral one place value away</li>
+          </ul>
+      </div>
+    </main>
+    
+    <footer>
+        <p>Roman Numeral Converter &copy; 2025</p>
+    </footer>
+  </body>
+</html>
