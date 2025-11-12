@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Unit Converter</title>
+    <style>
+        *{
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+            font-size: 26px;
+            color:#f5f6f7;
+            background-color: #1b1b32;
+        }
+        input[type="submit"]{
+            display: block;
+            margin: auto;
+            padding: 5px;
+            width: 30%;
+        }
+        input[type="submit"]:hover{
+            background-color: #53538b;
+            transition: 0.5s;
+            cursor: pointer;
+        }
+        select{
+            padding: 5px;
+            width: 40%;
+        }
+        #button{
+            margin-bottom: 20px;
+        }
+        #number{
+            margin: 1rem 0 2.5rem 0;
+        }
+    </style>
+    <script>
+        function calculate(){
+            selectElement = document.querySelector('#unit');
+            selectedUnit = selectElement.value;
+            let ans;
+            let num = document.getElementById("number").value;
+            let numInt = parseFloat(num)
+            let result = Number.isNaN(numInt)
+                if (result !== NaN && numInt < 0){
+                    alert("Please enter a valid number!")
+                }
+                else{
+                    if (selectedUnit == 'kmToMi'){
+                        ans = numInt/1.609;
+                        ans = Math.round((ans + Number.EPSILON) * 1000) / 1000
+                        
+                    }
+                    else if (selectedUnit == 'kmToYd'){
+                        ans = numInt*1094;
+                        ans = Math.round((ans + Number.EPSILON) * 1000) / 1000
+                        
+                    }
+                    else if (selectedUnit == 'kmToM'){
+                        ans = numInt*1000;
+                        ans = Math.round((ans + Number.EPSILON) * 1000) / 1000
+                        
+                    }
+                    else if (selectedUnit == 'miToKm'){
+                        ans = numInt*1.609;
+                        ans = Math.round((ans + Number.EPSILON) * 1000) / 1000
+                        
+                    }
+                    else if (selectedUnit == 'miToM'){
+                        ans = numInt*1609;
+                        ans = Math.round((ans + Number.EPSILON) * 1000) / 1000
+                        
+                    }
+                    else if (selectedUnit == 'miToYd'){
+                        ans = numInt*1760;
+                        ans = Math.round((ans + Number.EPSILON) * 1000) / 1000
+                        
+                    }
+                    else if (selectedUnit == 'mToKm'){
+                        ans = numInt/1000;
+                        ans = Math.round((ans + Number.EPSILON) * 1000) / 1000
+                        
+                    }
+                    else if (selectedUnit == 'mToMi'){
+                        ans = numInt/1609;
+                        ans = Math.round((ans + Number.EPSILON) * 1000) / 1000
+                        
+                    }
+                    else if (selectedUnit == 'mToYd'){
+                        ans = numInt*1.094;
+                        ans = Math.round((ans + Number.EPSILON) * 1000) / 1000
+                        
+                    }
+                    else if (selectedUnit == 'ydToKm'){
+                        ans = numInt/1094;
+                        ans = Math.round((ans + Number.EPSILON) * 1000) / 1000
+                        
+                    }
+                    else if (selectedUnit == 'ydToM'){
+                        ans = numInt/1.094;
+                        ans = Math.round((ans + Number.EPSILON) * 1000) / 1000
+                        
+                    }
+                    else if (selectedUnit == 'ydToMi'){
+                        ans = numInt/1760;
+                        ans = Math.round((ans + Number.EPSILON) * 1000) / 1000
+                        
+                    }
+                    else if (selectedUnit == 'hrToSec'){
+                        ans = numInt*3600;
+                        ans = Math.round((ans + Number.EPSILON) * 1000) / 1000
+                        
+                    }
+                    else if (selectedUnit == 'hrToMin'){
+                        ans = numInt*60;
+                        ans = Math.round((ans + Number.EPSILON) * 1000) / 1000
+                        
+                    }
+                    else if (selectedUnit == 'secToHr'){
+                        ans = numInt/3600;
+                        ans = Math.round((ans + Number.EPSILON) * 1000) / 1000
+                        
+                    }
+                    else if (selectedUnit == 'secToMin'){
+                        ans = numInt/60;
+                        ans = Math.round((ans + Number.EPSILON) * 1000) / 1000
+                        
+                    }
+                    else if (selectedUnit == 'minToSec'){
+                        ans = numInt*60;
+                        ans = Math.round((ans + Number.EPSILON) * 1000) / 1000
+                        
+                    }
+                    else if (selectedUnit == 'minToHr'){
+                        ans = numInt/60;
+                        ans = Math.round((ans + Number.EPSILON) * 1000) / 1000
+                        
+                    }
+                    else if (selectedUnit == 'kgToPd'){
+                        ans = numInt*2.205;
+                        ans = Math.round((ans + Number.EPSILON) * 1000) / 1000
+                        
+                    }
+                    else if (selectedUnit == 'pdToKg'){
+                        ans = numInt/2.205;
+                        ans = Math.round((ans + Number.EPSILON) * 1000) / 1000
+                        
+                    }
+                    else if (selectedUnit == 'mphToKph'){
+                        ans = numInt*1.609;
+                        ans = Math.round((ans + Number.EPSILON) * 1000) / 1000
+                        
+                    }
+                    else if (selectedUnit == 'kphToMph'){
+                        ans = numInt/1.609;
+                        ans = Math.round((ans + Number.EPSILON) * 1000) / 1000
+                        
+                    }
+                    else if (selectedUnit == 'celToFah'){
+                        ans = (numInt * (9/5)) + 32;
+                        ans = Math.round((ans + Number.EPSILON) * 1000) / 1000
+                        
+                    }
+                    else if (selectedUnit == 'fahToCel'){
+                        ans = (numInt - 32) * (5/9);
+                        ans = Math.round((ans + Number.EPSILON) * 1000) / 1000
+                        
+                    }
+                    document.getElementById("answer").innerHTML = ans;
+                }
+        }
+    </script>
+</head>
+<body>
+    <p>
+        <label>Which unit would you like to convert?</label><br><br>  
+        
+        <select name="Unit" id="unit">
+            <optgroup label="Length">
+                <option value="kmToMi">Kilometers to Miles</option>
+                <option value="kmToYd">Kilometers to Yards</option>
+                <option value="kmToM">Kilometers to Meters</option>
+                <option value="miToKm">Miles to Kilometers</option>
+                <option value="miToM">Miles to Meters</option>
+                <option value="miToYd">Miles to Yards</option>
+                <option value="mToKm">Meters to Kilometers</option>
+                <option value="mToMi">Meters to Miles</option>
+                <option value="mToYd">Meters to Yards</option>
+                <option value="ydToKm">Yards to Kilometers</option>
+                <option value="ydToM">Yards to Meters</option>
+                <option value="ydToMi">Yards to Miles</option>
+            </optgroup>
+            <optgroup label="Time">
+                <option value="hrToSec">Hours to Seconds</option>
+                <option value="hrToMin">Hours to Minutes</option>
+                <option value="secToHr">Seconds to Hours</option>
+                <option value="secToMin">Seconds to Minutes</option>
+                <option value="minToSec">Minutes to Seconds</option>
+                <option value="minToHr">Minutes to Hours</option>
+            </optgroup>
+            <optgroup label="Mass">
+                <option value="kgToPd">Kilograms to Pounds</option>
+                <option value="pdToKg">Pounds to Kilograms</option>
+            </optgroup>
+            <optgroup label="Speed">
+                <option value="mphToKph">Miles Per Hour to Kilometers Per Hour</option>
+                <option value="kphToMph">Kilometers Per Hour to Miles Per Hour</option>
+            </optgroup>
+            <optgroup label="Temperature">
+                <option value="celToFah">Celsius to Fahrenheit</option>
+                <option value="fahToCel">Fahrenheit to Celsius</option>
+            </optgroup>
+        </select><br><br>
+        <input type="number" name="number" id="number" placeholder="Enter your number..."><br><br>
+        <input type="submit" onclick="calculate()" id="button"><br><br>
+        <p style="font-size: 25px;">Result: </p>
+        <div id="answer" style="font-size: 25px;"></div>
+    </p>
+</body>
+</html>
